@@ -1,8 +1,8 @@
 # worldCreator
-> createur de monde *pour la 1.8.9* <br></br>
+> createur de monde *pour la 1.8.9* <br></br>.
 > **mon 2e projet en java. <br><sub>mieux organisé lui**</sub></br>
 
-## Commandes:
+## Commande:
 - **/wc**
   - create / cr / c
     - crée une map.
