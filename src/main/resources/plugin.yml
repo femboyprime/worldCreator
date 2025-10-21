@@ -1,0 +1,11 @@
+name: main
+version: '${project.version}'
+main: scriptservice.uhc.worldcreator.Main
+prefix: WC
+load: STARTUP
+authors: [scriptservice, getasset]
+description: plugin to create 1.8.9 worlds based on custom generation.
+
+commands:
+  wc:
+    description: le holder for worldCreator.
