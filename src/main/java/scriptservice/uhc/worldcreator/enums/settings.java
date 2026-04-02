@@ -1,12 +1,14 @@
 package scriptservice.uhc.worldcreator.enums;
 
+import org.bukkit.ChatColor;
+
 public enum settings {
-    GoldBoost("GoldBoost",("§6"+"Boost d'or"+": §l§c"+"%s"),                0,0, 4, 1),
-    DiamondBoost("DiamondBoost",("§6"+"Boost du diamands"+": §l§c"+"%s"),   0,0, 4, 1),
-    CaveBoost("CaveBoost",("§6"+"Boost des caves"+": §l§c"+"%s"),           200,0, 600, 200),
-    WorldBorder("WorldBorder",("§6"+"Bordure de la map"+": §l§c"+"%s"),     1000,300, 1250, 50),
-    StretchY("StretchY", ("§6"+"Etirement Vertical"+": §l§c"+"%s"),         25, 1, 25, 1),
-    BaseSize("BaseSize",("§6"+"Amplification des Reliefs"+": §l§c"+"%s"),   8,1, 50, 1);
+    GoldBoost("GoldBoost",(ChatColor.GOLD+      "Boost d'or: "+                 ChatColor.BOLD+""+ChatColor.RED+"%s"),                0,0, 4, 1),
+    DiamondBoost("DiamondBoost",(ChatColor.GOLD+"Boost du diamands: "+          ChatColor.BOLD+""+ChatColor.RED+"%s"),   0,0, 4, 1),
+    CaveBoost("CaveBoost",(ChatColor.GOLD+      "Boost des caves: "+            ChatColor.BOLD+""+ChatColor.RED+"%s"),           200,0, 600, 200),
+    WorldBorder("WorldBorder",(ChatColor.GOLD+  "Bordure de la map: "+          ChatColor.BOLD+""+ChatColor.RED+"%s"),     1000,300, 1250, 50),
+    StretchY("StretchY", (ChatColor.GOLD+       "Etirement Vertical: "+         ChatColor.BOLD+""+ChatColor.RED+"%s"),         25, 1, 25, 1),
+    BaseSize("BaseSize",(ChatColor.GOLD+        "Amplification des Reliefs: "+  ChatColor.BOLD+""+ChatColor.RED+"%s"),   8,1, 50, 1);
 
     private final String displayName;
     private final String name;

@@ -1,5 +1,6 @@
 package scriptservice.uhc.worldcreator.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,24 +11,16 @@ public class wc implements CommandExecutor {
     private final Main main;
     public wc(Main main) {this.main = main;}
 
-    //---- color strings ----//
-    private final String _gray = "§7";
-    private final String _dgray = "§8";
-    private final String _green = "§a";
-
-    private final String _bold = "§l";
-    //---- color strings ----//
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         Player player = (Player) sender;
 
         if (args.length == 0) {
             player.sendMessage(new String[]{
-                    main.chatPrefix+_bold+"Sous-commandes "+_dgray+"("+_gray+"/wc ..."+_dgray+")",
-                    _dgray+"> "+_green+"create",
-                    _dgray+"> "+_green+"teleport",
-                    _dgray+"> "+_green+"menu"
+                    main.chatPrefix+ ChatColor.BOLD+"Sous-commandes "+ChatColor.DARK_GRAY+"("+ChatColor.GRAY+"/wc ..."+ChatColor.DARK_GRAY+")",
+                    ChatColor.DARK_GRAY+"> "+ChatColor.GREEN+"create",
+                    ChatColor.DARK_GRAY+"> "+ChatColor.GREEN+"teleport",
+                    ChatColor.DARK_GRAY+"> "+ChatColor.GREEN+"menu"
             });
         } else {
             String sousCommande = args[0];

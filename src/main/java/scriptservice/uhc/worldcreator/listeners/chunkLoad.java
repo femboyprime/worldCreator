@@ -11,13 +11,17 @@ public class chunkLoad implements Listener {
     private void setRoofedForest(Chunk chunk) {
         int roofedSize = 21; // ~325 block
 
-        if (chunk.getX() <= roofedSize && chunk.getZ() <= roofedSize && chunk.getX() >= -roofedSize && chunk.getZ() >= -roofedSize) {
-            for (int x = 0; x <= 16; x++) {
-                for (int z = 0; z <= 16; z++) {
-                    chunk.getBlock(x, 60, z).setBiome(Biome.ROOFED_FOREST);
+        for (int x = 0; x <= 16; x++) {
+            for (int z = 0; z <= 16; z++) {
+                int y = chunk.getWorld().getHighestBlockYAt(x,z);
+                if (chunk.getX() <= roofedSize && chunk.getZ() <= roofedSize && chunk.getX() >= -roofedSize && chunk.getZ() >= -roofedSize) {
+                    chunk.getBlock(x, y, z).setBiome(Biome.ROOFED_FOREST);
+                } else {
+                    chunk.getBlock(x, y, z).setBiome(Biome.TAIGA);
                 }
             }
         }
+
     }
 
     @EventHandler

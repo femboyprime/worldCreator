@@ -1,21 +1,18 @@
 package scriptservice.uhc.worldcreator.utils;
 
+import net.minecraft.server.v1_8_R3.BiomeBase;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import scriptservice.uhc.worldcreator.Main;
 import scriptservice.uhc.worldcreator.enums.settings;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.Random;
 
 public class mapUtils {
     private final Main main;
     public mapUtils(Main main) {this.main = main;}
-
-    //---- color strings ----//
-    private final String _green = "§a";
-    private final String _white = "§f";
-    //---- color strings ----//
 
     public String mapName = "void";
 
@@ -54,7 +51,7 @@ public class mapUtils {
                 ",\"useLavaLakes\":" + true +
                 ",\"lavaLakeChance\":20" +
                 ",\"useLavaOceans\":" + false +
-                ",\"fixedBiome\":-1" +
+                ",\"fixedBiome\":27" +
                 ",\"biomeSize\":4" +
                 ",\"riverSize\":1" +
 
@@ -94,7 +91,7 @@ public class mapUtils {
                 ",\"redstoneSize\":" + 8 +
                 ",\"redstoneCount\":" + 20 +
                 ",\"redstoneMinHeight\":" + 0 +
-                ",\"redstoneMaxHeight\":" + 16+
+                ",\"redstoneMaxHeight\":" + 16 +
                 ",\"diamondSize\":" + 8 +
                 ",\"diamondCount\":" + (1 + settings.DiamondBoost.getValue()) +
                 ",\"diamondMinHeight\":" + 0 +
@@ -128,10 +125,16 @@ public class mapUtils {
     }
 
     private void _teleport(boolean loadAttempt, Player player, World world) {
+        // j'ai oublié :(
+        if (world == null) {
+            main.playerUtils.sendMessage(player,"Le monde n'existe pas.", false);
+            return;
+        }
+
         if (!loadAttempt) {
             // on teleport le player au monde voulu
-            player.teleport(new Location(world, 0.5, 125 , 0.5));
-            main.playerUtils.sendMessage(player,"Teleportation dans le monde "+_green+"Arena"+_white+".", false);
+            player.teleport(world.getSpawnLocation());
+            main.playerUtils.sendMessage(player,"Teleportation dans le monde "+ChatColor.GREEN+"Arena"+ChatColor.WHITE+".", false);
         } else {
             File worldFolder = new File(Bukkit.getServer().getWorldContainer(), mapName);
 
@@ -168,8 +171,49 @@ public class mapUtils {
 
 
 
-        // on crée un nouveau monde
+        //--// on crée un nouveau monde
         mapName = "arena " + System.currentTimeMillis();
+        main.playerUtils.sendMessage(player,"Lancement de la génération du monde "+ChatColor.GREEN+"'"+mapName+"'"+ChatColor.WHITE+".", false);
+
+        // changement des biomebases pour plus de "normalité"
+        try {
+            Field biomesField = BiomeBase.class.getDeclaredField("biomes");
+            biomesField.setAccessible(true);
+            if (biomesField.get(null) instanceof BiomeBase[]) {
+                BiomeBase replacementBiomeBase = BiomeBase.TAIGA;
+                BiomeBase[] biomes = (BiomeBase[]) biomesField.get(null);
+
+                biomes[BiomeBase.DEEP_OCEAN.id] = replacementBiomeBase;
+                biomes[BiomeBase.OCEAN.id] = replacementBiomeBase;
+
+                biomes[BiomeBase.BEACH.id] = replacementBiomeBase;
+                biomes[BiomeBase.COLD_BEACH.id] = replacementBiomeBase;
+                biomes[BiomeBase.STONE_BEACH.id] = replacementBiomeBase;
+
+                biomes[BiomeBase.SWAMPLAND.id] = replacementBiomeBase;
+
+                biomes[BiomeBase.ICE_MOUNTAINS.id] = replacementBiomeBase;
+                biomes[BiomeBase.SMALL_MOUNTAINS.id] = replacementBiomeBase;
+
+                biomes[BiomeBase.JUNGLE.id] = replacementBiomeBase;
+                biomes[BiomeBase.JUNGLE_HILLS.id] = replacementBiomeBase;
+                biomes[BiomeBase.JUNGLE_EDGE.id] = replacementBiomeBase;
+
+                biomes[BiomeBase.EXTREME_HILLS_PLUS.id] = replacementBiomeBase;
+                biomes[BiomeBase.EXTREME_HILLS.id] = replacementBiomeBase;
+
+                biomes[BiomeBase.DESERT.id] = replacementBiomeBase;
+                biomes[BiomeBase.DESERT_HILLS.id] = replacementBiomeBase;
+
+                biomes[BiomeBase.MESA.id] = replacementBiomeBase;
+                biomes[BiomeBase.MESA_PLATEAU.id] = replacementBiomeBase;
+                biomes[BiomeBase.MESA_PLATEAU_F.id] = replacementBiomeBase;
+
+                biomesField.set(null, biomes);
+            }
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+        }
 
         WorldCreator worldCreator = new WorldCreator(mapName);
         worldCreator.seed(new Random(System.currentTimeMillis()).nextLong());
@@ -202,7 +246,7 @@ public class mapUtils {
         worldBorder.setCenter(newWorld.getSpawnLocation()); // le centre de la bordure au (0, 0)
         worldBorder.setSize(settings.WorldBorder.getValue() * 2); // j'dois faire size*2 si j'veux la distance entre 0 et la bordure a size (oui c'est des maths)
 
-        main.playerUtils.sendMessage(player,"Génération du monde "+_green+"Arena"+_white+" terminée avec succes.", false);
+        main.playerUtils.sendMessage(player,"Génération du monde "+ChatColor.GREEN+"Arena"+ChatColor.WHITE+" terminée avec succes.", false);
     }
 
     public void teleportWorld(Player player){
