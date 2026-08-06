@@ -76,32 +76,23 @@ public class menuListener implements Listener {
             if (usedSetting != null) {
                 // une action sur les settings
 
-                if (main.playerUtils.isOwner(player)) {
-                    main.playerUtils.sendMessage(player,"action: " + action.toString(), true);
-                }
-
-
                 switch (action) {
                     case PICKUP_ALL: // on ajoute
                         usedSetting.setValue(Math.min(usedSetting.getMaxValue(), usedSetting.getValue() + usedSetting.getStep()));
-                        main.playerUtils.sendMessage(player,usedSetting.getDisplayName() + "+ :: " + usedSetting.getValue(), false);
                         break;
 
                     case PICKUP_HALF: // on retire
                         usedSetting.setValue(Math.max(usedSetting.getMinValue(), usedSetting.getValue() - usedSetting.getStep()));
-                        main.playerUtils.sendMessage(player,usedSetting.getDisplayName() + "- :: " + usedSetting.getValue(), false);
                         break;
 
                     case CLONE_STACK:
                     case DROP_ALL_SLOT:
                     case DROP_ONE_SLOT: // on reset
                         usedSetting.setValue(usedSetting.getDefaultValue());
-                        main.playerUtils.sendMessage(player,usedSetting.getDisplayName() + "/ :: " + usedSetting.getValue(), false);
                         break;
 
                     case MOVE_TO_OTHER_INVENTORY: // on set au max
                         usedSetting.setValue(usedSetting.getMaxValue());
-                        main.playerUtils.sendMessage(player,usedSetting.getDisplayName() + "++ :: " + usedSetting.getValue(), false);
                         break;
                 }
 

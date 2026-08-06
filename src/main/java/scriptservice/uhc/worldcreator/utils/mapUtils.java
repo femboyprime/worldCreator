@@ -49,7 +49,7 @@ public class mapUtils {
                 ",\"useWaterLakes\":" + true +
                 ",\"waterLakeChance\":8" +
                 ",\"useLavaLakes\":" + true +
-                ",\"lavaLakeChance\":20" +
+                ",\"lavaLakeChance\":90" +
                 ",\"useLavaOceans\":" + false +
                 ",\"fixedBiome\":27" +
                 ",\"biomeSize\":4" +
